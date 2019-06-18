@@ -1,0 +1,9 @@
+{% if latest_service %}
+    <ul>
+    {% for cc in latest_service %}
+        <li><a href="{% url 'main:services' cc.id %}">{{ cc.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No services are available.</p>
+{% endif %}

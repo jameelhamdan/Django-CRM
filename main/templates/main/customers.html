@@ -1,0 +1,19 @@
+{% if latest_customer %}
+    <ul style="width:300px">
+    {% for cc in latest_customer %}
+        <li><a href="{% url 'main:customers' cc.id %}">{{ cc.name }}</a> <a style="float: right;" href="{% url 'main:customerdelete' cc.id %}"> Delete </a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No customers are available.</p>
+{% endif %}
+
+<h1>Add Customers</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'main:customeradd'%}" method="post">
+    {% csrf_token %}
+
+    <input type="text" name="name"/>
+    <input type="submit" value="Add">
+</form>
