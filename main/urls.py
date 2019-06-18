@@ -9,6 +9,10 @@ urlpatterns = [
     #services
     path('services/', views.services, name='services'),
     path('services/<int:service_id>/', views.services, name='services'), 
+    path('service/add/', views.servicesadd, name='serviceadd'),
+    path('service/delete/<int:service_id>', views.servicesdelete, name='servicedelete'),
+
+
     #customers
     path('customers/', views.customers, name='customers'),
     path('customers/<int:customer_id>/', views.customers, name='customers'),

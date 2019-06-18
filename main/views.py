@@ -24,8 +24,7 @@ def customers(request, customer_id=None):
 def customersadd(request):
     #gettings formdata
     try:
-        cc = customer()
-        cc.name = request.POST['name']
+        cc = customer(phonenumber=request.POST['phonenumber'],name = request.POST['name'])
         cc.save()
 
         return redirect('main:customers')        
@@ -55,3 +54,21 @@ def services(request, service_id=None):
             raise Http404("Service does not exist")
         return render(request, 'main/service.html', {'service': cc})
 
+def servicesadd(request):
+    #gettings formdata
+    try:
+        cc = service(name = request.POST['name'])
+        cc.save()
+
+        return redirect('main:services')        
+    except:
+        return redirect('main:services')
+
+def servicesdelete(request,service_id):
+    try:
+        cc = service.objects.get(pk=service_id)
+        cc.delete()
+
+        return redirect('main:services')        
+    except:
+        return redirect('main:services')

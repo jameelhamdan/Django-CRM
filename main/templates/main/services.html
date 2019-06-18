@@ -1,9 +1,52 @@
-{% if latest_service %}
-    <ul>
-    {% for cc in latest_service %}
-        <li><a href="{% url 'main:services' cc.id %}">{{ cc.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No services are available.</p>
-{% endif %}
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div>
+    <div class="pb-5 pt-5 text-left row">
+        <h2>Services</h2>
+    </div>
+    <div class="row col-3">
+        <button class="btn btn-info mb-3 text-left" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> Add Service </button>
+    </div>
+    <div class="row"> 
+        <form class="form collapse" id="collapseExample" action="{% url 'main:serviceadd'%}" method="post">
+            {% csrf_token %}
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <div class="form-group">
+                <label for="name" class="form-label">Service Name</label>
+                <input type="text" name="name" class="form-control">
+            </div>
+
+            <input type="submit" class="btn btn-primary float-left" value="Add">
+        </form>
+    </div>
+    {% if latest_service %}
+    <div class="row">
+        <table class="table col-12">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cc in latest_service %}
+                <tr>
+                    <th scope="row">{{  forloop.counter }}</th>
+                    <td><a href="{% url 'main:services' cc.id %}">{{ cc.name }}</a></td>
+                    <td><a style="float: right;" href="{% url 'main:servicedelete' cc.id %}"> Delete </a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No services are available.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock  %}

@@ -1,1 +1,22 @@
-{{ service }}
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="card mt-5 col-8">
+        <div class="card-body">
+            <h5 class="card-title"> Service Details</h5>
+            <h6 class="card-subtitle mb-2 text-muted text-left"></h6>
+            <ul class="list-unstyled">
+                    <li class="lead">Name : <span class="text-dark">{{ service.name }}</span></li>
+            </ul>
+            <a class="float-left btn btn-dark" href="{% url 'main:customers' %}"> Back </a>
+        </div>
+    </div>
+ 
+
+</div>
+
+
+
+{% endblock  %}

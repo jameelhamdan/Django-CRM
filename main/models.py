@@ -8,7 +8,7 @@ class service(models.Model):
 
 class customer(models.Model):
     name = models.CharField(max_length=128)
-    phonenumber = models.CharField(max_length=10)
+    phonenumber = models.CharField(max_length=128)
     services = models.ManyToManyField(service, through='customerservice')
 
     def __str__(self):              
