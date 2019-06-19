@@ -43,7 +43,11 @@
                     <th scope="row">{{  forloop.counter }}</th>
                     <td><a href="{% url 'main:customers' cc.id %}">{{ cc.name }}</a></td>
                     <td>{{ cc.phonenumber }}</td>
-                    <td><a style="float: right;" href="{% url 'main:customerdelete' cc.id %}"> Delete </a></td>
+                    <td>
+                        <a style="float: right;margin:0 10px" href="{% url 'main:customerdelete' cc.id %}"> Delete </a>
+                        <a style="float: right;margin:0 10px" href="{% url 'main:customeredit' cc.id %}"> Edit </a>
+                    </td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>

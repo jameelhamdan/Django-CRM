@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h3 class="mt-5 mb-5">Edit Customer </h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    {{ formset.as_p }}
+    <button class="btn btn-primary" >Save</button>    
+
+</form>
+
+{% endblock %}

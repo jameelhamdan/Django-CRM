@@ -16,7 +16,8 @@ urlpatterns = [
     #customers
     path('customers/', views.customers, name='customers'),
     path('customers/<int:customer_id>/', views.customers, name='customers'),
-    path('customer/add/', views.customersadd, name='customeradd'),
+    path('customer/add/', views.customeradd, name='customeradd'),
+    path('customer/edit/<int:pk>/', views.customeredit, name='customeredit'),
     path('customer/delete/<int:customer_id>', views.customersdelete, name='customerdelete'),
     #path('customers/<int:customer_id>/services', views.services, name='services'),
     
