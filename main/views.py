@@ -44,7 +44,7 @@ def customeradd(request):
 
 def customeredit(request,pk):
     cc = get_object_or_404(customer, pk=pk)
-    FormSet = inlineformset_factory(customer, customerservice, form=CServiceForm)
+    FormSet = inlineformset_factory(customer, customerservice, form=CServiceForm,extra=1)
 
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -55,14 +55,14 @@ def customeredit(request,pk):
             cc.phonenumber = form.cleaned_data['phonenumber']
             #services here
             
-            if form.is_valid:
+            if formset.is_valid():
                 formset.save()
 
             cc.save()
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('main:customers'))
 
-    formset = FormSet(instance=cc)
+    formset = FormSet(instance=cc,)
     context = {
         "formset": formset,
         'form': CustomerForm(initial={'name': cc.name, 'phonenumber':cc.phonenumber }),

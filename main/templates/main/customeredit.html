@@ -8,9 +8,14 @@
     {% csrf_token %}
     {{ form|crispy }}
 
-    {{ formset.as_p }}
+    <div id="formset-wrapper">
+        <div class="items">
+            {{ formset|crispy }}
+        </div>
+        <a href="#" id="add-item">Add row</a>
+    </div>
     <button class="btn btn-primary" >Save</button>    
-
 </form>
 
 {% endblock %}
+
