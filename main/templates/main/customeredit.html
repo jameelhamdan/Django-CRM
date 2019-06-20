@@ -2,21 +2,25 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="card mt-5">
+    <div class="card-body">
+        <h4 class="card-title">Edit Customer </h4>
 
-<h3 class="mt-5 mb-5">Edit Customer </h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
 
-    <div id="formset-wrapper">
-        <div class="items" id="formsets">
-            {{ formset|crispy }}
-        </div>
-        <button type="button" class="btn btn-primary btn-sm mb-2" id="add-item">Add row</button>
+            <div id="formset-wrapper">
+                <div class="items" id="formsets">
+                    {{ formset|crispy }}
+                </div>
+                <button type="button" class="btn btn-primary btn-sm mb-2" id="add-item">Add row</button>
+            </div>
+            <button type="submit" class="btn btn-primary" >Save</button>
+            <a href="{% url 'main:customers' %}" class="btn btn-dark" >Back</a>        
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary" >Save</button>    
-</form>
-
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -30,7 +34,7 @@
             var temphtml = formhtml.split(initiali).join(rr);
             $("#formsets").append('<div class="multiField">' + temphtml +'</div>');
             $("#id_customerservice_set-TOTAL_FORMS").val(parseInt($("#id_customerservice_set-TOTAL_FORMS").val())+1);
-            
+
         });
     });
 </script>    

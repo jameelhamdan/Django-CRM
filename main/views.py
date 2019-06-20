@@ -31,16 +31,17 @@ def customeradd(request):
             cc = customer()
             cc.name = form.cleaned_data['name']
             cc.phonenumber = form.cleaned_data['phonenumber']
-            for f in form.cleaned_data['myservices']:
-                cs = customerservice()
-                cs.customer = cc
-                cs.service = f
-                cs.save()                                
+            # for f in form.cleaned_data['myservices']:
+            #     cs = customerservice()
+            #     cs.customer = cc
+            #     cs.service = f
+            #     cs.save()                                
             cc.save()
             
-        return HttpResponseRedirect(reverse('main:customers'))
+        return HttpResponseRedirect(reverse('main:customeredit/' + customer.pk))
     except:
         return HttpResponseRedirect(reverse('main:customers'))
+        
 
 def customeredit(request,pk):
     cc = get_object_or_404(customer, pk=pk)

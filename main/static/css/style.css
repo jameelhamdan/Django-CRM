@@ -2,3 +2,16 @@ label.form-label{
     width:100%;
     text-align:left;
 }
+
+body{
+    background-color:#F8F8FF;
+}
+
+.multiField .form-group {
+    display:inline-block;
+    width:30%;
+    margin-right:3%;
+}
+.table.dataTable {
+    border-collapse : 
+}
