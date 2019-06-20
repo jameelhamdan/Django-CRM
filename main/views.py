@@ -37,8 +37,9 @@ def customeradd(request):
             #     cs.service = f
             #     cs.save()                                
             cc.save()
-            
-        return HttpResponseRedirect(reverse('main:customeredit/' + customer.pk))
+        
+        newid = cc.pk
+        return HttpResponseRedirect(reverse('main:customeredit', kwargs={'pk': newid}))
     except:
         return HttpResponseRedirect(reverse('main:customers'))
         
