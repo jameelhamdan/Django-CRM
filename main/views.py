@@ -3,13 +3,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import *
 from .forms import *
+from django.contrib.auth.forms import *
+from django.contrib.auth import *
 from django.forms import inlineformset_factory
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 def index(request):
-    latest_customer = customer.objects.order_by('-name')[:5]
-    context = {'latest_customer': latest_customer,}      
-    return render(request, 'main/index.html', context)
+    if request.user.is_authenticated:
+        return render(request, 'main/index.html')
+    else :
+        return redirect('/login/')
+    
 
+@login_required(login_url='/login')
 def customers(request, customer_id=None):
     if customer_id is None :
         latest_customer = customer.objects.order_by('-name')
@@ -23,7 +30,7 @@ def customers(request, customer_id=None):
             raise Http404("Customer does not exist")
         return render(request, 'main/customer.html', {'customer': cc,"services":srv})
 
-
+@login_required(login_url='/login')
 def customeradd(request):
     try:
         form = CustomerForm(request.POST)
@@ -43,7 +50,7 @@ def customeradd(request):
     except:
         return HttpResponseRedirect(reverse('main:customers'))
         
-
+@login_required(login_url='/login')
 def customeredit(request,pk):
     cc = get_object_or_404(customer, pk=pk)
     FormSet = inlineformset_factory(customer, customerservice, form=CServiceForm,extra=1)
@@ -73,17 +80,28 @@ def customeredit(request,pk):
 
     return render(request, 'main/customeredit.html', context)
 
-def customersdelete(request,customer_id):
+@login_required(login_url='/login')
+def customersdelete(request,pk):
     try:
-        cc = customer.objects.get(pk=customer_id)
+        cc = customer.objects.get(pk=pk)
         cc.delete()
         return redirect('main:customers')        
     except:
         return redirect('main:customers')
 
+def customeractiveservices(request,pk):
+    try :
+        cc = customer.objects.get(pk=pk)
+        srv = customerservice.objects.filter(customer=cc,active=True)
+        
+    except :
+        raise Http404("Customer does not exist")
+
+    return render(request, 'main/customerservices.html', {'customer': cc,"services":srv})
 
 
 #=============================================================#
+@login_required(login_url='/login')
 def services(request, service_id=None):
     if service_id is None :
         latest_service = service.objects.order_by('-name')
@@ -97,6 +115,7 @@ def services(request, service_id=None):
             raise Http404("Service does not exist")
         return render(request, 'main/service.html', {'service': cc})
 
+@login_required(login_url='/login')
 def servicesadd(request):
     try:
         form = ServiceForm(request.POST)
@@ -109,6 +128,7 @@ def servicesadd(request):
     except:
         return HttpResponseRedirect(reverse('main:services'))
 
+@login_required(login_url='/login')
 def servicesdelete(request,service_id):
     try:
         cc = service.objects.get(pk=service_id)
@@ -117,3 +137,39 @@ def servicesdelete(request,service_id):
         return redirect('main:services')        
     except:
         return redirect('main:services')
+
+#==============================================================#
+
+def register(request): 
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password1"]
+            #add group if doesn't exist
+            group_name = 'employee'
+            try:
+                gg = Group.objects.get(name=group_name)
+                user.groups.add(gg)
+                gg.save()
+
+            except Group.DoesNotExist:   
+                gg = Group()
+                gg.name = group_name
+                gg.save()
+                user.groups.add(gg)         
+
+            user = authenticate(username=username, password=password)
+            login(request,user)
+            return redirect('/main')            
+
+    else :
+        form = UserCreationForm()
+
+        
+    context = {'form' : form}
+    return render(request, 'registration/register.html', context)
+
+

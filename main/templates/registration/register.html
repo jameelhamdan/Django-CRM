@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card mt-5">
+    <div class="card-body">
+        <h4 class="card-title mb-2">Registration</h4>
+        <div class="row ml-1 mt-4 mb-4">
+            <form class="form" action="{% url 'main:register' %}" method="post">
+                {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="alert alert-block alert-danger "> <ul> <li>there are errors</li> </ul> </div>
+                    {% endif %}
+                {{ form|crispy }}
+
+                <input type="submit" class="btn btn-primary float-left" value="Register">
+            </form>
+        </div>
+        <span class="card-text">already have an account ? login <a href="{% url 'login' %}">here</a></p>
+
+    </div>
+</div>
+{% endblock %}

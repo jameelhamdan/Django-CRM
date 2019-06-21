@@ -13,5 +13,10 @@ body{
     margin-right:3%;
 }
 .table.dataTable {
-    border-collapse : 
+    border-collapse : collapse;
+}
+
+.modal-header .modal-title {
+    position: absolute;
+    top: 10px;
 }

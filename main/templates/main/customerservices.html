@@ -1,0 +1,14 @@
+<h5 class="card-title"> Customer : {{ customer.name }}</h5>
+
+
+<ul class="list-unstyled">
+    {% if services %}
+        <li class="lead"><span class="text-dark">Services</span></li>
+
+        {% for f in services %}
+            <li class="lead"><span class="text-dark text-black-50">{{ f.service.name  }} </span></li>
+        {% endfor %}
+    {% else %}
+        <li class="lead"><span class="text-dark">No active services </span></li>
+    {% endif %}
+</ul>

@@ -46,6 +46,7 @@
                         <td>
                             <a style="float: right;margin:0 10px" href="{% url 'main:customerdelete' cc.id %}"> Delete </a>
                             <a style="float: right;margin:0 10px" href="{% url 'main:customeredit' cc.id %}"> Edit </a>
+                            <a href="#" class="serv-btn"  data-url="{% url 'main:customerservices' cc.id %}" style="float: right;margin:0 10px" > Active Services </a>
                         </td>
 
                     </tr>
@@ -58,11 +59,26 @@
 </div>
 
 {% endblock  %}
-
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js" integrity="sha256-tcqPYPyxU+Fsv5sVdvnxLYJ7Jq9wWpi4twZbtZ0ubY8=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function(){
         $("#datatable").DataTable();
+
+        $(document).on('click','.serv-btn',function(e){
+            e.preventDefault();
+            var url = $(this).data('url');
+            $.ajax({
+                url: url,
+                method: "GET",
+                success : function(data){
+                    bootbox.alert({
+                        title: "Customer Active Services",
+                        message: data,
+                    });
+                }
+            });
+        });
     });
 </script>
 

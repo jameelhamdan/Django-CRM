@@ -27,13 +27,29 @@
 <script>
     $(document).ready(function(){
         //get html of first formset
+        $("#formset-wrapper .items .multiField:last .form-group:last").remove();
         var formhtml = $("#formset-wrapper .items .multiField:last").html();
         var initiali = $('#formset-wrapper .items .multiField').length-1;
+
+        $('#formset-wrapper .items .multiField select option:selected').each(function(){
+            if($(this).val() != ''){
+                $('#formset-wrapper .items .multiField:last select option[value="'+$(this).val() + '"]').remove();
+            }
+        });
+
         $(document).on('click','#add-item',function(){
-            var rr = $('#formset-wrapper .items .multiField').length;
-            var temphtml = formhtml.split(initiali).join(rr);
-            $("#formsets").append('<div class="multiField">' + temphtml +'</div>');
-            $("#id_customerservice_set-TOTAL_FORMS").val(parseInt($("#id_customerservice_set-TOTAL_FORMS").val())+1);
+            console.log($('#formset-wrapper .items .multiField:last select option:selected').val());
+            if($('#formset-wrapper .items .multiField:last select option:selected').val() !== ''){
+                var rr = $('#formset-wrapper .items .multiField').length;
+                var temphtml = formhtml.split(initiali).join(rr);
+                $("#formsets").append('<div class="multiField">' + temphtml +'</div>');
+                $("#id_customerservice_set-TOTAL_FORMS").val(parseInt($("#id_customerservice_set-TOTAL_FORMS").val())+1);
+                $('#formset-wrapper .items .multiField select option:selected').each(function(){
+                    if($(this).val() != ''){
+                        $('#formset-wrapper .items .multiField:last select option[value="'+$(this).val() + '"]').remove();
+                    }
+                });
+            }
 
         });
     });

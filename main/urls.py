@@ -4,8 +4,9 @@ from django.http import HttpResponse
 from . import views
 
 app_name = 'main'
-urlpatterns = [
+urlpatterns = [ 
     path('', views.index, name='index'), 
+
     #services
     path('services/', views.services, name='services'),
     path('services/<int:service_id>/', views.services, name='services'), 
@@ -18,7 +19,10 @@ urlpatterns = [
     path('customers/<int:customer_id>/', views.customers, name='customers'),
     path('customer/add/', views.customeradd, name='customeradd'),
     path('customer/edit/<int:pk>/', views.customeredit, name='customeredit'),
-    path('customer/delete/<int:customer_id>', views.customersdelete, name='customerdelete'),
-    #path('customers/<int:customer_id>/services', views.services, name='services'),
-    
+    path('customer/delete/<int:pk>', views.customersdelete, name='customerdelete'),
+    path('customer/services/<int:pk>', views.customeractiveservices, name='customerservices'),    
+
+    #users
+    path('register/', views.register, name='register'),
+
 ]
